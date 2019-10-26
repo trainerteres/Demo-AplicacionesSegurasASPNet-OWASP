@@ -3,7 +3,8 @@
 @{
     ViewBag.Title = "My Movies List";
 }
-
+<a href="@Url.Action("Administration", "Home")" class="btn btn-sm btn-success" type="submit">Administration</a>
+<a href="@Url.Action("Logout", "Home")" class="btn btn-sm btn-danger" type="submit">Logout!</a>
 <br />
 <h2>@ViewBag.Title</h2>
 <br />

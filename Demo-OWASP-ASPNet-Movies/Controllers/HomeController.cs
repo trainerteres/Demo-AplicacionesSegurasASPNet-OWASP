@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Demo_OWASP_ASPNet_Movies.Controllers
@@ -16,18 +17,20 @@ namespace Demo_OWASP_ASPNet_Movies.Controllers
         {
             List<Models.MovieView> myMovies = new List<Models.MovieView>();
 
-            if (Session["logged"] == null || (Convert.ToInt32(Session["logged"].ToString()) != 1))
-            {
-                return RedirectToAction("Login");
+            HttpCookie myCK = Request.Cookies["LoggedCookie"];
+
+            if (myCK.Value != "true") {
+                return RedirectToAction("Login");           
             }
             else
             {
-                if(TempData["searchResult"] != null)
+                HttpCookie myIdUserCK = Request.Cookies["UserIdCookie"];
+                if (TempData["searchResult"] != null)
                 {
                     return View(TempData["searchResult"]);
                 }
 
-                int idU = Convert.ToInt32(Session["userId"].ToString());
+                int idU = Convert.ToInt32(myIdUserCK.Value);
 
                 string sql = "select distinct M.idMovie, C.category, M.title, M.release ";
                 sql += "from Movies M inner join Categories C on M.idCategory = C.idCategory ";
@@ -75,8 +78,18 @@ namespace Demo_OWASP_ASPNet_Movies.Controllers
 
             if(currentUser != null)
             {
-                Session["userId"] = currentUser.idUser;
-                Session["logged"] = 1;
+                HttpCookie userIdCK = new HttpCookie("UserIdCookie");
+                HttpCookie myCookieUser = new HttpCookie("LoggedCookie");
+                HttpCookie userAuth = new HttpCookie("userAuthCookie");
+                                
+                userIdCK.Value = currentUser.idUser.ToString();
+                myCookieUser.Value = "true";
+                userAuth.Value = "false";
+
+                Response.Cookies.Add(userIdCK);
+                Response.Cookies.Add(myCookieUser);
+                Response.Cookies.Add(userAuth);
+
                 return RedirectToAction("Index");
             }
 
@@ -88,8 +101,8 @@ namespace Demo_OWASP_ASPNet_Movies.Controllers
         {
             List<Models.MovieView> myMovies = new List<Models.MovieView>();
 
-
-                int idU = Convert.ToInt32(Session["userId"].ToString());
+            HttpCookie myIdUserCK = Request.Cookies["UserIdCookie"];
+            int idU = Convert.ToInt32(myIdUserCK.Value);
 
                 string sql = "select distinct M.idMovie, C.category, M.title, M.release ";
                 sql += "from Movies M inner join Categories C on M.idCategory = C.idCategory ";
@@ -126,17 +139,26 @@ namespace Demo_OWASP_ASPNet_Movies.Controllers
             return RedirectToAction("Index");
         }
 
-
-        public ActionResult About()
+        public ActionResult Logout()
         {
-            ViewBag.Message = "Your application description page.";
+            HttpCookie myCookieUser = new HttpCookie("LoggedCookie");
+            myCookieUser.Value = "false";
+            Response.Cookies.Add(myCookieUser);
 
-            return View();
+            return RedirectToAction("Login");
         }
 
-        public ActionResult Contact()
+        public ActionResult Administration()
         {
-            ViewBag.Message = "Your contact page.";
+            HttpCookie userAuth = Request.Cookies["userAuthCookie"];
+
+            if (userAuth.Value != "true")
+            {
+                ViewBag.Message = "You do not have enough privileges!";
+                return View("Error");
+            }
+            
+            ViewBag.Message = "Welcome Administrator!";
 
             return View();
         }
