@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace Demo_OWASP_ASPNet_Movies.Controllers
 {
@@ -10,6 +6,12 @@ namespace Demo_OWASP_ASPNet_Movies.Controllers
     {
         public ActionResult Index()
         {
+            return View();
+        }
+
+        public ActionResult Login()
+        {
+
             return View();
         }
 
