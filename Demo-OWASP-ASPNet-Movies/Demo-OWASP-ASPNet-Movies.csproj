@@ -155,6 +155,7 @@
     <Compile Include="Models\Movies.cs">
       <DependentUpon>ModelBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MovieView.cs" />
     <Compile Include="Models\Subscriptions.cs">
       <DependentUpon>ModelBD.tt</DependentUpon>
     </Compile>
