@@ -1,0 +1,53 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Sign In</h5>
+                        <hr />
+                        @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form-signin" }))
+                        {
+                    <div class="form-label-group">
+                        <label for="username">Username</label>
+                        @Html.TextBox("username", null, new { @class = "form-control", @autocomplete="off" })
+                    </div>
+                    <div class="form-label-group">
+                        <label for="username">Password</label>
+                        @Html.TextBox("password", null, new { @class = "form-control", @type = "password" })
+                    </div>
+                    <br />
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@*<body>
+    <div class="container">
+            <h4 class="text-center mb-4 mt-1">Sign in</h4>
+            <hr>
+            
+    </div>
+</body>*@
+
+</html>
