@@ -9,7 +9,7 @@ namespace Demo_OWASP_ASPNet_Movies.Controllers
 {
     public class HomeController : Controller
     {
-        string connectionString = "Server=localhost;Database=MoviesDB;User Id=sa; Password=masterKey;";
+        string connectionString = "Server=database-downloadmovies.cuit7donrxwm.us-east-1.rds.amazonaws.com,1433;Database=MoviesDB;User Id=awsdemovies; Password=aws.1234;";
 
         Models.MoviesDBEntities db = new Models.MoviesDBEntities();
 
