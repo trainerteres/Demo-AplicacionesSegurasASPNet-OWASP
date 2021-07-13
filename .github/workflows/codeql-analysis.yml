@@ -41,6 +41,26 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    # Added steop for .NET
+    - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+        #dotnet-version: ['3.0', '3.1.x', '5.0.x' ]
+    
+    - name: Install dependencies
+      working-directory: Demo-OWASP-ASPNet-Movies/
+      #run: dotnet restore ./WebSecurity/WebSecurity.sln
+      run: dotnet restore
+      
+    - name: Build
+      working-directory: Demo-OWASP-ASPNet-Movies/
+     # #run: dotnet build ./WebSecurity/WebSecurity/WebSecurity.csproj --configuration Release --no-restore
+      run: dotnet build --configuration Release --no-restore
+      
+    - name: Test
+     run: dotnet test --no-restore --verbosity normal
+
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
